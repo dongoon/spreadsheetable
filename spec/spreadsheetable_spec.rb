@@ -5,26 +5,38 @@ describe Spreadsheetable do
     Spreadsheetable::VERSION.should_not be_nil
   end
 
-  describe "extendable object type" do
-    subject{ obj.extend Spreadsheetable }
+  describe "initialize" do
 
-    context "ActiveRecord::Relation" do
-      let(:obj){ User.unscoped }
-
-      example{ expect{subject}.to_not raise_error }
+    describe "#sheet_columns" do
+      let(:obj){
+        o = User.all
+        o.extend Spreadsheetable
+        o
+      }
+      example{ expect(obj.sheet_columns).to be_an_instance_of(Array) }
     end
 
-    context "Array of active_record" do
-      before{ 3.times{ FactoryGirl.create :user } }
-      let(:obj){ o = User.all.to_a }
+    describe "extendable object type" do
+      subject{ obj.extend Spreadsheetable }
 
-      example{ expect{ subject }.to_not raise_error }
-    end
+      context "ActiveRecord::Relation" do
+        let(:obj){ User.unscoped }
 
-    context "other" do
-      let(:obj){ [ Object.new ] }
+        example{ expect{subject}.to_not raise_error }
+      end
 
-      example{ expect{ subject }.to raise_error }
+      context "Array of active_record" do
+        before{ 3.times{ FactoryGirl.create :user } }
+        let(:obj){ o = User.all.to_a }
+
+        example{ expect{ subject }.to_not raise_error }
+      end
+
+      context "other" do
+        let(:obj){ [ Object.new ] }
+
+        example{ expect{ subject }.to raise_error }
+      end
     end
   end
 end
