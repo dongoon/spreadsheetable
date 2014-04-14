@@ -7,13 +7,12 @@ class CreateTestTables < ActiveRecord::Migration
       t.string :email
       t.string :name
       t.integer :rank
+      t.integer :organization_id
       t.datetime :registered_at
     end
 
-    create_table :comments do |t|
-      t.integer :user_id
-      t.integer :count
-      t.string :said
+    create_table :organizations do |t|
+      t.string :name
     end
   end
 end
@@ -23,15 +22,15 @@ CreateTestTables.up
 
 
 class User < ActiveRecord::Base
-  has_many :comments
+  belongs_to :organization
 
   def say comment
     comments.create(count: comments.count + 1, said: comment)
   end
 end
 
-class Comment < ActiveRecord::Base
-  belongs_to :user
+class Organization < ActiveRecord::Base
+  has_many :users
 end
 
 FactoryGirl.define do
@@ -39,5 +38,6 @@ FactoryGirl.define do
     sequence(:name){ |n| "No.#{n} user" }
     sequence(:email){ |n| "user#{n}@example.com" }
     registered_at Time.now
+    organization Organization.first
   end
 end

@@ -1,0 +1,11 @@
+ja:
+  activerecord:
+    models:
+      organization: 組織
+      user: ユーザ
+    attributes:
+      organization:
+        name: 組織名
+      user:
+        name: 氏名
+        email: メールアドレス
