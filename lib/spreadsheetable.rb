@@ -14,6 +14,27 @@ module Spreadsheetable
     @sheet_columns = cols
   end
 
+  def to_spreadsheet
+    book = Spreadsheet::Workbook.new
+    sheet = book.create_worksheet()
+
+    rows = [_sheet_header]
+    rows += self.collect{|_row| _to_row(_row)}
+
+    rows.each_with_index do |_row, i|
+      sheet.row(i).concat _row
+    end
+
+    tmpfile = Tempfile.new ["excel_tmp", ".xls"]
+    book.write tmpfile
+
+    tmpfile
+  end
+
+  def xls
+    to_spreadsheet
+  end
+
   def _sheet_header
     default = self.is_a?(ActiveRecord::Relation) ? self.klass : self.first.class
 
@@ -28,5 +49,11 @@ module Spreadsheetable
     }
   end
 
-  private :_sheet_header
+  def _to_row record
+    self.sheet_columns.collect{|c|
+      eval("record." + c) rescue nil
+    }
+  end
+
+  private :_sheet_header, :_to_row
 end
