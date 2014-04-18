@@ -1,4 +1,5 @@
 require "spreadsheetable/version"
+require 'spreadsheet'
 
 module Spreadsheetable
   attr_reader :sheet_columns
@@ -15,7 +16,7 @@ module Spreadsheetable
   end
 
   def to_spreadsheet
-    book = Spreadsheet::Workbook.new
+    book = ::Spreadsheet::Workbook.new
     sheet = book.create_worksheet()
 
     rows = [_sheet_header]
