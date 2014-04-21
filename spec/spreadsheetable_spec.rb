@@ -6,7 +6,6 @@ describe Spreadsheetable do
   I18n.enforce_available_locales = false
 
   before{
-    Organization.create name: "The group"
     3.times{ FactoryGirl.create :user }
   }
   let(:users){ User.all }
@@ -98,6 +97,34 @@ describe Spreadsheetable do
         before{ expect(sheet_users).to be_an_instance_of(Array) }
 
         it_should_behave_like "_sheet_header"
+      end
+    end
+
+    describe "#_to_row" do
+      subject{ sheet_users.send(:_to_row, row) }
+      let(:row){ sheet_users.first }
+
+      context "sheet_columns is NOT set any column" do
+        before{ sheet_users.sheet_columns = [] }
+
+        example{expect(subject).to eq []}
+      end
+
+      context "sheet_columns is set some column" do
+        before{ sheet_users.sheet_columns += %w(id organization.name name email) }
+
+        example "return a array of set column values" do
+          expect(subject).to match_array([row.id, row.organization.name, row.name, row.email])
+        end
+
+        context "sheet_culumns include invalid column" do
+          before{ sheet_users.sheet_columns << "hoge" }
+          example{ expect{subject}.to_not raise_error }
+
+          example "invalid column value is nil" do
+            expect(subject).to match_array([row.id, row.organization.name, row.name, row.email, nil])
+          end
+        end
       end
     end
   end

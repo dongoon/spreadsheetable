@@ -34,10 +34,14 @@ class Organization < ActiveRecord::Base
 end
 
 FactoryGirl.define do
+  factory :organization do
+    sequence(:name){ |n| "The group No.#{n}" }
+  end
+
   factory :user do
     sequence(:name){ |n| "No.#{n} user" }
     sequence(:email){ |n| "user#{n}@example.com" }
     registered_at Time.now
-    organization Organization.first
+    organization
   end
 end
