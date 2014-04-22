@@ -2,6 +2,8 @@ $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'rspec'
 require 'spreadsheetable'
 require 'factory_girl'
+require 'coveralls'
+Coveralls.wear!
 
 if ENV['COVERAGE']
   require 'simplecov'
