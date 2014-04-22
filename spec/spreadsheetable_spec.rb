@@ -64,17 +64,47 @@ describe Spreadsheetable do
 
       example{ expect{ subject }.to raise_error }
     end
-
   end
 
-  describe "private methods" do
+  describe "#to_spreadsheet" do
+    before{ sheet_users.sheet_columns += %w(id organization.name name email) }
+
+    shared_examples_for "to_spreadsheet" do
+      subject{ sheet_users.to_spreadsheet }
+
+      example{ expect(subject).to be_a(Tempfile) }
+
+      example "header row is created by #_sheet_header" do
+        expect(sheet_users).to receive(:_sheet_header).and_call_original.once
+        book = Spreadsheet.open(subject.path)
+        expect(book.worksheets.count).to eq(1)
+        sheet = book.worksheets.first
+        expect(sheet.rows.first.to_a).to eq(%w(Id 組織名 氏名 メールアドレス))
+      end
+
+      example "data row is created by #_to_row" do
+        expect(sheet_users).to receive(:_to_row).and_call_original.exactly(sheet_users.count).times
+        book = Spreadsheet.open(subject.path)
+        sheet = book.worksheets.first
+        expect(sheet.rows.count).to eq(sheet_users.count + 1)
+      end
+    end
+
+    context "ActiveRecord::Relation" do
+      before{ expect(sheet_users.is_a?(ActiveRecord::Relation)).to eq(true) }
+
+      it_should_behave_like "to_spreadsheet"
+    end
+
+    context "Array of active_record" do
+      let(:users){ o = User.all.to_a }
+      before{ expect(sheet_users).to be_an_instance_of(Array) }
+
+      it_should_behave_like "to_spreadsheet"
+    end
 
     describe "#_sheet_header" do
       subject{ sheet_users.send :_sheet_header }
-
-      before{
-        sheet_users.sheet_columns += %w(id organization.name name email)
-      }
 
       shared_examples_for "_sheet_header" do
         example "should be generated with sheet_columns config" do
@@ -111,8 +141,6 @@ describe Spreadsheetable do
       end
 
       context "sheet_columns is set some column" do
-        before{ sheet_users.sheet_columns += %w(id organization.name name email) }
-
         example "return a array of set column values" do
           expect(subject).to match_array([row.id, row.organization.name, row.name, row.email])
         end

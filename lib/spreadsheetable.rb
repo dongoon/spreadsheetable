@@ -21,7 +21,6 @@ module Spreadsheetable
 
     rows = [_sheet_header]
     rows += self.collect{|_row| _to_row(_row)}
-
     rows.each_with_index do |_row, i|
       sheet.row(i).concat _row
     end
