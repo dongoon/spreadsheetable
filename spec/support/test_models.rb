@@ -23,10 +23,6 @@ CreateTestTables.up
 
 class User < ActiveRecord::Base
   belongs_to :organization
-
-  def say comment
-    comments.create(count: comments.count + 1, said: comment)
-  end
 end
 
 class Organization < ActiveRecord::Base
