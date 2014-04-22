@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Spreadsheetable::VERSION
   spec.authors       = ["Yasuhiko Maeda"]
   spec.email         = ["y.maeda@dongoon.jp"]
-  spec.summary       = %q{ActiveRecord::Relation to SpreadSheet}
+  spec.summary       = %q{ActiveRecord::Relation or array of active_records to SpreadSheet}
   spec.description   = %q{This module implement [to_spreadsheet | xls] to ActiveRecord::Relation}
   spec.homepage      = ""
   spec.license       = "MIT"

@@ -1,6 +1,6 @@
 # Spreadsheetable
 
-TODO: Write a gem description
+A scope(ActiveRecord::Relation) and a array of active_record are able to be spreadsheet with this module.
 
 ## Installation
 
@@ -12,17 +12,17 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install spreadsheetable
-
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+scope = SomeTable.all #scope or array
+scope.sheet_columns = %w(id name other)
+xls_file = scope.xls # or scope.to_spreadsheet
+```
 
 ## Contributing
 
-1. Fork it ( http://github.com/<my-github-username>/spreadsheetable/fork )
+1. Fork it ( http://github.com/dongoon/spreadsheetable/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
