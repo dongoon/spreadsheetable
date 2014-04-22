@@ -1,4 +1,4 @@
-# Spreadsheetable
+# Spreadsheetable[![Build Status](https://travis-ci.org/dongoon/spreadsheetable.svg?branch=master)](https://travis-ci.org/dongoon/spreadsheetable)
 
 A scope(ActiveRecord::Relation) and a array of active_record are able to be spreadsheet with this module.
 
