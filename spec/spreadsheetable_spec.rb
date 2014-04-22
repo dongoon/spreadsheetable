@@ -103,6 +103,14 @@ describe Spreadsheetable do
       it_should_behave_like "to_spreadsheet"
     end
 
+    describe "#xls" do
+      subject{ sheet_users.xls }
+      example "#xls is alias of #to_spreadsheet" do
+        expect(sheet_users).to receive(:to_spreadsheet).once
+        subject
+      end
+    end
+
     describe "#_sheet_header" do
       subject{ sheet_users.send :_sheet_header }
 
