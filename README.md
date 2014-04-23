@@ -16,6 +16,7 @@ And then execute:
 
 ```ruby
 scope = AModel.all #scope or array
+scope.extend Spreadsheetable
 scope.sheet_columns = %w(id name other)
 xls_file = scope.xls # or scope.to_spreadsheet
 ```
