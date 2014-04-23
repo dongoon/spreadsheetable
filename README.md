@@ -15,7 +15,7 @@ And then execute:
 ## Usage
 
 ```ruby
-scope = SomeTable.all #scope or array
+scope = AModel.all #scope or array
 scope.sheet_columns = %w(id name other)
 xls_file = scope.xls # or scope.to_spreadsheet
 ```

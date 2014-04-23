@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["y.maeda@dongoon.jp"]
   spec.summary       = %q{ActiveRecord::Relation or array of active_records to SpreadSheet}
   spec.description   = %q{This module implement [to_spreadsheet | xls] to ActiveRecord::Relation}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/dongoon/spreadsheetable"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
